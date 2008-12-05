@@ -66,9 +66,10 @@ iterative.testGUI1<-function (fact,ae,mat9,mat6)
   test <- tkwidget(tt4, "ComboBox", editable = FALSE, values = c("t-test (parametric)", "Mann Whitney (non-parametric)","Fisher's exact (presence/absence profiles)"),width=40,height=3)
   tkpack(text4,test,side="left")
   tkgrid(tt4)
-    
+  a<<-1  
   mm <- function() 
   {
+    a<<-0
     tt1 <- tktoplevel()
     tkwm.title(tt1,"Working")
     tkgrid(tklabel(tt1,font="arial 12",text="Please wait...\n This operation may take several minutes                           "))
@@ -83,7 +84,7 @@ iterative.testGUI1<-function (fact,ae,mat9,mat6)
     if (test==3 & mat9[1,1]==1) stop("You can not compute Fisher's exact test as you have qualitative profiles") 
    
     niv1=levels(fact[,ae])
-    niv<-c(niv1[repee],niv1[repee1])
+    niv<<-c(niv1[repee],niv1[repee1])
     a=iterative.test(profil=mat6,fact1=fact[,ae],level=niv,method=test)
     tkdestroy(tt1)
   }                                                         
@@ -98,9 +99,26 @@ iterative.testGUI1<-function (fact,ae,mat9,mat6)
   }
   
   b2<-tkbutton(tt5,text="Cancel",command=close)
+  
+  vis<-function(){
+  if (a==1) tkmessageBox(message="First press the button Compute")
+  if (a==1) stop("First press the button Compute")
+  loc = round(locator(1, type = "p", pch = 4)[[1]],digit=0)
+  n1<-which(fact[,ae]==niv[1])
+  n2<-which(fact[,ae]==niv[2])
+  proan<-mat6[c(n1,n2),loc]
+  factt<-fact[c(n1,n2),ae]
+  factt<-factor(factt)
+  x11();boxplot(proan~factt,main=paste("Boxplot of the scan ",loc,sep=""),ylab="Signal intensity")
+  }
+  
+  b3<-tkbutton(t2,text="Visualize distribution of a scan",command=vis)
+    
   tkpack(b1,b2,side="left")
   tkgrid(tt5)
   tkgrid(tklabel(t2, text = ""))
+  tkgrid(b3)
+   tkgrid(tklabel(t2, text = ""))
   tkfocus(t2)
 }
 

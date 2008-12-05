@@ -16,27 +16,9 @@ if(exists("filename")==FALSE & exists("mat")==FALSE) newrdata()
     closeAllConnections()
      
        
-       R.base.dir <- system.file()
-   Met.Console<- paste(R.base.dir,"/../../library/StatFingerprints/StatFingerprints_Console_O",sep="")
-   Met.Console2<-paste(R.base.dir,"/../../library/StatFingerprints/StatFingerprints_Console_W",sep="")
-
-   z<-file(Met.Console,"w+b")
-  z2<-file(Met.Console2,"w+b")
-  sink(file = z, append = TRUE, type = c("output", "message"), split = TRUE)
-  sink(file = z2, append = TRUE, type =c("message"),  split = FALSE)
+       
   .write<-function()
   {
-tkconfigure(txt2, state="normal")
-tkconfigure(txt3, state="normal")
-  chn <- tclopen(Met.Console, "r")
-chn2 <- tclopen(Met.Console2, "r")
- tkdelete(txt2,"0.0","100000.0")
-tkdelete(txt3,"0.0","100000.0")
-  tkinsert(txt2, "end", tclvalue(tclread(chn)))
-  tkinsert(txt3, "end", tclvalue(tclread(chn2)))
-tkconfigure(txt2, state="disabled")
-tkconfigure(txt3, state="disabled")
-
 tkconfigure(filenametxt, state="normal")
 tkdelete(filenametxt,"0.0","100000.0")
 tkinsert(filenametxt, "end", filename)
@@ -256,7 +238,7 @@ bug<-function(){  tkmessageBox(message="Please send an email at StatFingerprints
 
   FrameMain <- tkframe(MainMenu)
 ##Filename   
-filenametxt <- tktext(FrameMain,bg="#d8d8d8", width=70,height=1,fg="dark green")
+filenametxt <- tktext(FrameMain,bg="#d8d8d8", width=81,height=1,fg="dark green")
 filenamelab<-tklabel(FrameMain,text="          Project: ")
 tkpack(filenamelab,filenametxt,side="left")
 
@@ -300,11 +282,15 @@ divbut<-tkbutton(etat111,text="Edit",command=e3)
 tkpack(divlab,divbut,divtxt,side="left")
 ##factors
 e1<-function(){fact<<-edit(fact)}
+e2<-function(){if (fact[1,1]!=1) edit(summary(fact))
+if (fact[1,1]==1) tkmessageBox(message="No qualitative variables is imported")
+if (fact[1,1]==1) stop("No qualitative variables is imported")}
 etat01<-tkframe(MainMenu) 
 facttxt <- tktext(etat01,bg="#d8d8d8", width=10,height=1,fg="dark green")
 factlab<-tklabel(etat01,text="          Imported qualitative variables: ")
 factbut<-tkbutton(etat01,text="Edit",command=e1)
-tkpack(factlab,factbut,facttxt,side="left")
+factbut2<-tkbutton(etat01,text="Number sample per level of qualitative variable",command=e2)
+tkpack(factlab,factbut,facttxt,factbut2,side="left")
 #parametre
 e2<-function(){param<<-edit(param)}
 etat022<-tkframe(MainMenu) 
@@ -348,27 +334,12 @@ etat8<-tkframe(MainMenu)
 er1<-tklabel(etat8,text="")
 er2<-tklabel(etat8,text="")
 tkpack(er1,er2,side="left")
-console1<-tkframe(MainMenu)
-consbut<-tkbutton(console1,text="Clear the consoles",command=clearconsole)
-tkpack(consbut)
-
-console<-tkframe(MainMenu)
-scr2 <- tkscrollbar(console, repeatinterval=5,command=function(...)tkyview(txt2,...))
-txt2 <- tktext(console,bg="#d8d8d8", width=51,height=18,fg="blue")
-tkgrid(tklabel(console,text="  Output  "),row=3,column=25)
-
-scr3 <- tkscrollbar(console, repeatinterval=5,command=function(...)tkyview(txt3,...))
-txt3 <- tktext(console,bg="#d8d8d8", width=51,height=18,fg="red")
-
-tkgrid(tklabel(console,text="  Warning  "),row=3,column=51,columnspan=50)
+etat9<-tkframe(MainMenu)
+er11<-tklabel(etat9,text="")
+er21<-tklabel(etat9,text="")
+tkpack(er11,er21,side="left")
 
 
-tkgrid(txt2,columnspan=50)
-  tkgrid(scr2,column=51,row=4)
-  tkgrid(txt3,column=52,row=4,columnspan=48)
-  tkgrid(scr3,column=101,row=4)
-  tkgrid.configure(scr2,sticky="ns")
-  tkgrid.configure(scr3,sticky="ns")
 
 tkgrid(FrameMainMenu)
 tkgrid(etat7)
@@ -387,14 +358,10 @@ tkgrid( etat5,sticky="w")
 tkgrid( etat6,sticky="w")
 tkgrid( etat7,sticky="w")
 tkgrid( etat111,sticky="w")
-tkgrid(console1)
-tkgrid(console)
+tkgrid(etat9)
+
 tkfocus(MainMenu)
-tkbind(txt2, "<Motion>",.write)
-   tkbind(txt3, "<Motion>",.write)
-   tkbind(txt2, "<Control-Return>",run)
-   tkbind(txt3, "<Control-Return>",run)
-   tkbind(filenametxt, "<Motion>",.write)
+tkbind(filenametxt, "<Motion>",.write)
 tkbind(filenametxt, "<Control-Return>",run)
  tkbind(mattxt, "<Motion>",.write)
 tkbind(mattxt, "<Control-Return>",run)

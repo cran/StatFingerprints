@@ -4,6 +4,7 @@
 
 "plotordGUI"<-function()
 {
+  require(maptools) 
   fil=if (interactive()) choose.files(filters = Filters["All",])
 
   z=load(file=fil)
@@ -68,7 +69,7 @@
     if (z=="bestnmds" & facte!=0) plot(ord[,d1],ord[,d2],xlab=NA,ylab=NA,xaxt="n",yaxt="n",col=as.numeric(fact[,facte]),pch=as.numeric(fact[,facte]),main="Non-metric multidimensional scaling",sub=paste("Stress=",c(round(bestnmds$stress,digit=3))))
     if (z=="pcaf" & facte!=0) plot(ord[,d1],ord[,d2],xlab=NA,ylab=NA,xaxt="n",yaxt="n",col=as.numeric(fact[,facte]),pch=as.numeric(fact[,facte]),main="Principal components analysis")
     if (z=="pcaf" & facte==0) plot(ord[,d1],ord[,d2],xlab=NA,ylab=NA,xaxt="n",yaxt="n",main="Principal components analysis")
-    if (repe1==1) text(ord[,d1],ord[,d2],rownames(ord))
+    if (repe1==1) pointLabel(ord[,d1],ord[,d2],rownames(ord),offset = 0, cex = 0.7) 
     if (parame!=0)  glm1<- glm(param[,parame]~ord[,d1]+I(ord[,d1]^2)+ord[,d1]*ord[,d2]+ord[,d2]+I(ord[,d2]^2),na.action=na.omit)
     if (parame!=0) contour(interp(ord[,d1],ord[,d2],fitted(glm1)),add=TRUE,col="black",lty=3,labcex=1.2,font=3,lwd=1.2,nlevels=5)
     if (facte!=0) legend("topleft",legend=c(levels(fact[,facte])),col=c(1:length((levels(fact[,facte])))),pch=c(1:length(levels(fact[,facte]))))
