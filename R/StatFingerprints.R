@@ -137,7 +137,7 @@ run <- function()
   tkadd(FileMenu,"command",label="Load project",                                          command=function()  loadGUI())
   tkadd(FileMenu,"command",label="Save project",                                          command=function()  saveGUI())
   tkadd(FileMenu,"command",label="Save project as...",                                    command=function()  saveasGUI())
-  tkadd(FileMenu,"command",label="Quit R",                                                command=function()  askquitGUI())
+  tkadd(FileMenu,"command",label="Quit StatFingerprints",                                                command=function()  askquitGUI())
   tkadd(opensubmenu,"command",label="Import variables (quantitatives or qualitatives)",       command=function() importGUI2())
 
 ####  Edit menu
@@ -230,6 +230,7 @@ run <- function()
   tkadd(HelpMenu,"command",label="User manual",   command=function()  oppdf())
   tkadd(HelpMenu,"command",label="About StatFingerprints",    command=function()  hsscp())
   tkadd(HelpMenu,"command",label="Bug report",    command=function()  bug())
+
 #####Sub-fonction
 hsscp<-function(){print(help(StatFingerprints))}
 bug<-function(){  tkmessageBox(message="Please send an email at StatFingerprints@gmail.com with details about the error") }

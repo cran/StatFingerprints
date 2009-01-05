@@ -81,8 +81,7 @@
         mat8<<-mat8[-sel,]
         mat9<<-mat9[-sel,]
         tkdestroy(th)
-        tkdestroy(MainMenu)
-        StatFingerprints()
+        tkfocus(MainMenu)
         tkmessageBox(message="Profiles successfully deleted")
     }
     

@@ -2,7 +2,7 @@
 #    "Within-group variability" analysis    #
 #############################################
 
-"withingroupvariability"<-function(mat,fact1,index)
+"withingroupvariability"<-function(mat,fact1,index,metth)
 {
   dis=newdist(mat,index)
   x <- as.dist(dis)
@@ -41,4 +41,9 @@
   print("")
   print("RESULTS OF HSD TUKEY POST HOC TEST") 
   print(p0)
+  require(sciplot)
+  if (metth==1) boxplot(x~cl.vec,xlab=names(fact)[sel],ylab="Proximity measure",main="Boxplot of the within group variability")
+  if (metth==3) lineplot.CI(cl.vec, x, type="b", cex = 2,xlab = names(fact)[sel], ylab = "Proximity measure", ci.fun= function(x) c(mean(x)-sd(x), mean(x)+sd(x)))
+  if (metth==2) lineplot.CI(cl.vec, x, type="p", cex = 2,xlab = names(fact)[sel], ylab = "Proximity measure", ci.fun= function(x) c(mean(x)-sd(x), mean(x)+sd(x)))
+ 
 }

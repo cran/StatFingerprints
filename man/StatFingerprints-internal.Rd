@@ -14,7 +14,6 @@
 \alias{binary}
 \alias{binaryGUI}
 \alias{change.nameGUI}
-\alias{clearconsole}
 \alias{convertGUI}
 \alias{correlationGUI}
 \alias{delete.background}

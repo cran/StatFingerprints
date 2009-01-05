@@ -22,6 +22,12 @@
   index1<-tkwidget(tt,"ComboBox",editable=FALSE,values=index,width=40,height=13)
   tkgrid(index1)
   tkgrid(tklabel(tt, text = " "))
+  
+  tkgrid(tklabel(tt,text="Plot representation"))
+  indexx<-c("Boxplot","Points and SD","Lines and SD")
+  indexx1<-tkwidget(tt,"ComboBox",editable=FALSE,values=indexx,width=40,height=3)
+  tkgrid(indexx1)
+  tkgrid(tklabel(tt, text = " "))
  
   mm <- function() 
   {
@@ -42,8 +48,10 @@
     if (diste == 13) index <-"steinhaus"
     if (diste >= 10 & mat9[1,1]==1) tkmessageBox(message="This index works with presence/absence data. You can either transform your profiles into presence/absence profiles (profile processing menu) or use another index")
     if (diste >= 10 & mat9[1,1]==1) stop(message="This index works with presence/absence data. You can either transform your profiles into presence/absence profiles (profile processing menu) or use another index")
-
-    withingroupvariability(mat=mat6,fact1=fact[,sel],index=index)
+    metth <- unlist(as.numeric(tcl(indexx1, "getvalue")) + 1)
+    sel<<-sel
+    withingroupvariability(mat=mat6,fact1=fact[,sel],index=index,metth=metth)
+    tkfocus(tt)
   }
      
   az<-tkframe(tt)

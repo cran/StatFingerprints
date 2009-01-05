@@ -12,8 +12,8 @@
   proan<-profil[c(n1,n2),]
   factt<-vector(length=length(fact1))
   factt[]<-NA
-  factt[n1]<-"a"
-  factt[n2]<-"b"
+  factt[1:length(n1)]<-"a"
+  factt[length(n1)+1:length(n2)]<-"b"
   factt<-na.omit(factt)
   factt<-factor(factt)
   z=vector(length=dim(profil)[2])
