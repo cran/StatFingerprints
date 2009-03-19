@@ -14,6 +14,9 @@
 \alias{binary}
 \alias{binaryGUI}
 \alias{change.nameGUI}
+\alias{checkfact}
+\alias{checkparam}
+\alias{checkprofile}
 \alias{convertGUI}
 \alias{correlationGUI}
 \alias{delete.background}
@@ -65,9 +68,9 @@
 \alias{trunckGUI}
 \alias{withingroupvariability}
 \alias{withingroupvariabilityGUI}
-\title{Internal functions for the SSCP package}
+\title{Internal functions for the StatFingerprints package}
 \description{
-Internal functions for the SSCP package
+Internal functions for the StatFingerprints package
 }
 \details{
 These are not to be called by the user

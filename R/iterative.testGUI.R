@@ -4,8 +4,8 @@
 
 "iterative.testGUI"<-function()
 {  
-  if (fact[1,1]==1) tkmessageBox(message="Error, no qualitative variables to compute iterative test")
-  if (fact[1,1]==1) stop("Error, no qualitative variables to compute iterative test")
+  checkprofile() 
+  checkfact()
 
   tt <- tktoplevel()
   tkwm.title(tt, "Iterative test")
@@ -67,14 +67,10 @@ iterative.testGUI1<-function (fact,ae,mat9,mat6)
   tkpack(text4,test,side="left")
   tkgrid(tt4)
   a<<-1  
+
   mm <- function() 
   {
     a<<-0
-    tt1 <- tktoplevel()
-    tkwm.title(tt1,"Working")
-    tkgrid(tklabel(tt1,font="arial 12",text="Please wait...\n This operation may take several minutes                           "))
-    tkfocus(tt1)
-    tkconfigure(tt1,cursor="watch")
     repee <- unlist(as.numeric(tcl(repee, "getvalue"))+1)
     repee1 <- unlist(as.numeric(tcl(repee1, "getvalue"))+1)
     test <- unlist(as.numeric(tcl(test, "getvalue"))+1)
@@ -86,7 +82,7 @@ iterative.testGUI1<-function (fact,ae,mat9,mat6)
     niv1=levels(fact[,ae])
     niv<<-c(niv1[repee],niv1[repee1])
     a=iterative.test(profil=mat6,fact1=fact[,ae],level=niv,method=test)
-    tkdestroy(tt1)
+    
   }                                                         
   
   tkgrid(tklabel(t2, text = ""))
@@ -100,16 +96,18 @@ iterative.testGUI1<-function (fact,ae,mat9,mat6)
   
   b2<-tkbutton(tt5,text="Cancel",command=close)
   
-  vis<-function(){
-  if (a==1) tkmessageBox(message="First press the button Compute")
-  if (a==1) stop("First press the button Compute")
-  loc = round(locator(1, type = "p", pch = 4)[[1]],digit=0)
-  n1<-which(fact[,ae]==niv[1])
-  n2<-which(fact[,ae]==niv[2])
-  proan<-mat6[c(n1,n2),loc]
-  factt<-fact[c(n1,n2),ae]
-  factt<-factor(factt)
-  x11();boxplot(proan~factt,main=paste("Boxplot of the scan ",loc,sep=""),ylab="Signal intensity")
+  vis<-function()
+  {
+    if (a==1) tkmessageBox(message="First press the button Compute")
+    if (a==1) stop("First press the button Compute")
+    loc = round(locator(1, type = "p", pch = 4)[[1]],digit=0)
+    n1<-which(fact[,ae]==niv[1])
+    n2<-which(fact[,ae]==niv[2])
+    proan<-mat6[c(n1,n2),loc]
+    factt<-fact[c(n1,n2),ae]
+    factt<-factor(factt)
+    x11()
+    boxplot(proan~factt,main=paste("Boxplot of the scan ",loc,sep=""),ylab="Signal intensity")
   }
   
   b3<-tkbutton(t2,text="Visualize distribution of a scan",command=vis)
@@ -118,13 +116,6 @@ iterative.testGUI1<-function (fact,ae,mat9,mat6)
   tkgrid(tt5)
   tkgrid(tklabel(t2, text = ""))
   tkgrid(b3)
-   tkgrid(tklabel(t2, text = ""))
+  tkgrid(tklabel(t2, text = ""))
   tkfocus(t2)
 }
-
-
-
-
-
-
-

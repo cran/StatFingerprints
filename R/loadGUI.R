@@ -7,10 +7,15 @@
 #### Load project
   
   fil=if (interactive()) choose.files(filters = Filters["All",],caption="Select your project")
-  print("Please wait...This operation may take several minutes")
-  
-   load(file=fil)
- filename<<-filename
+    
+  tt1 <- tktoplevel()
+  tkwm.title(tt1,"Loading")
+  tkgrid(tklabel(tt1,font="arial 12",text="Please wait...\n This operation may take several minutes                           "))
+  tkfocus(tt1)
+  tkconfigure(tt1)
+    
+  load(file=fil)
+  filename<<-filename
   mat<<-mat
   mat1<<-mat1
   rxref<<-rxref
@@ -27,5 +32,6 @@
   mat8<<-mat8
   mat9<<-mat9  
   print("Your project has been successfully loaded")
-  tkfocus(MainMenu)
+  
+  tkdestroy(tt1)
 }

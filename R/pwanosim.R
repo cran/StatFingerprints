@@ -69,5 +69,4 @@
   print(c(level))
   if (level[1]!="pw45pw") pwan(mat,param,level,index,permutations)    
   if (level[1]=="pw45pw") pwano(mat,param,index,permutations)     
- 
 }

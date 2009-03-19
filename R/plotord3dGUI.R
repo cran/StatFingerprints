@@ -65,6 +65,7 @@
   tkpack(text6,repzz,side="left")
   tkgrid(t6)
   tkgrid(tklabel(tt,text=" "))
+  
   cal <- function()
   {
     repe1 <- unlist(as.numeric(tcl(repee, "getvalue")) + 1)
@@ -118,5 +119,3 @@
   tkgrid(tklabel(tt,text=""))
   tkfocus(tt)
 }
-
-

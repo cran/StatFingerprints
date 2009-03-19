@@ -4,7 +4,7 @@
 
 "normalisationGUI"<-function()
 {
-
+  checkprofile()
 
   tt <- tktoplevel()
   tkwm.title(tt,"Normalisation of the fingerprint profiles")
@@ -41,12 +41,13 @@
   tkgrid(t1)
 
   m<-mat$profil
-  if(mat1[1,1]!=1) m<-mat1
-  if(mat2[1,1]!=1) m<-mat2
-  if(mat3[1,1]!=1) m<-mat3
-  if(mat4[1,1]!=1) m<-mat4
-  if(mat5[1,1]!=1) m<-mat5
-
+  if(sum(mat1)!=length(mat1)) m<-mat1
+  if(sum(mat2)!=length(mat2)) m<-mat2
+  if(sum(mat3)!=length(mat3)) m<-mat3
+  if(sum(mat4)!=length(mat4)) m<-mat4
+  if(sum(mat5)!=length(mat5)) m<-mat5
+  if(sum(mat8)!=length(mat8)) m<-mat8
+  
 ####    Display result of normalisation
 
   mm<-function()

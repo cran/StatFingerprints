@@ -11,30 +11,27 @@
   defroxref<-function(roxref)
   {
 
-####    Select range peaks
+####    Select range peaks        
 
-    plot(0,0,col="white",xlim=c(0,roxref[length(roxref)]),ylim=c(0,1),main="2 clicks before the first and after the last peaks used to align")
+    plot(0,0,col="white",xlim=c(0,roxref[length(roxref)]),ylim=c(0,1),main="Click before the first and after the last peaks used to align")
     abline(v=roxref,col="red",main="rox ref")
     loca=locator(2,type="p",pch=4) 
     roxref1<-roxref
-    x1<-round(loca$x[1]);x2<-round(loca$x[2])
-    for (i in 1:length(roxref))
-    {
-      if (x1>roxref[i]) 
-        x11<-c(1:length(roxref))[i+1]
-    }
-    for (i in 1:length(roxref))
-    {
-      if (x2>roxref[i])
-        x22<-c(1:length(roxref))[i]
-    }
+    loca<-sort(loca$x)
+    x1<-round(loca[1])
+    x2<-round(loca[2])
+
+    x11<-which(roxref>x1)
+    x11<-min(x11)
+    x22<-which(roxref<x2)
+    x22<-max(x22)
     
-  roxref=roxref[x11:x22]
-  plot(0,0,col="white",xlim=c(0,roxref1[length(roxref1)]),ylim=c(0,1),main=paste("You have selected ",length(roxref)," peaks"))
-  abline(v=roxref1,col="red",main="rox ref")
-  abline(v=roxref,col="green",lty=3)
-  roxref=roxref-roxref[1]+25
-  return(roxref)
+    roxref=roxref[x11:x22]
+    plot(0,0,col="white",xlim=c(0,roxref1[length(roxref1)]),ylim=c(0,1),main=paste("You have selected ",length(roxref)," peaks"))
+    abline(v=roxref1,col="red",main="rox ref")
+    abline(v=roxref,col="green",lty=3)
+    roxref=roxref-roxref[1]+25
+    return(roxref)
   }
 
   r<-defroxref(roxref)
@@ -43,6 +40,4 @@
   print(rxref)
   tkfocus(MainMenu)
   
-  
 }
-        

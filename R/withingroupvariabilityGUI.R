@@ -4,8 +4,9 @@
 
 "withingroupvariabilityGUI"<-function()
 {
-  if (fact[1,1]==1) tkmessageBox(message="Error, no qualitative variables to test the variabilty within group")
-  if (fact[1,1]==1) stop("Error, no qualitative variables to test the variabilty within group")
+  checkprofile()
+  checkfact()
+  
   tt <- tktoplevel()
   tkwm.title(tt, "Within-group variability")
   tkgrid(tklabel(tt, text = "                                     "))
@@ -68,4 +69,3 @@
   tkgrid(tklabel(tt,text="   "))
   tkfocus(tt)
 }
-

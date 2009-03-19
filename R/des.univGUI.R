@@ -4,8 +4,9 @@
 
 "des.univGUI"<-function()
 {
-  if(sum(na.omit(param))==6 & sum(na.omit(div))==3) tkmessageBox(message="Error, no quantitative variables or diversity index")
-  if(sum(na.omit(param))==6 & sum(na.omit(div))==3) stop("Error, no quantitative variables or diversity index")
+  if(sum(param)==length(param) & sum(div)==length(div)) tkmessageBox(message="Error, no quantitative variables and diversity index")
+  if(sum(param)==length(param) & sum(div)==length(div)) stop("Error, no quantitative variables and diversity index")
+  
   tt <- tktoplevel()
   tkwm.title(tt,"Mean, Standard deviation, Distribution")
   tkgrid(tklabel(tt, text = "                                                                                                                                              "))

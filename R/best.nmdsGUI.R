@@ -4,6 +4,8 @@
 
 "best.nmdsGUI"<-function()
 {
+  checkprofile()
+  
   tt<-tktoplevel()
   tkwm.title(tt,"Compute a non-metric Multidimensional Scaling  with random starts")
   tkgrid(tklabel(tt,text="                                                                                                                                                                         "))
@@ -22,7 +24,7 @@
   
   tt2<-tkframe(tt)
   text2<-tklabel(tt2,text="Number of random start?")
-  it <- tclVar("100")
+  it <- tclVar("10")
   starte <- tkentry(tt2,width=8,textvariable=it)
   tkpack(text2,starte,side="left")
   tkgrid(tt2)
@@ -57,13 +59,9 @@
     if (nb==1) stop(message="Please select 2 or more dimensions")    
     itr<-as.numeric(tclvalue(it))
     repe1 <- unlist(as.numeric(tcl(repee, "getvalue")) + 1)
-    tt1 <- tktoplevel()
-    tkwm.title(tt1,"Working")
-    tkgrid(tklabel(tt1,font="arial 12",text="Please wait...\n This operation may take several minutes                           "))
-    tkfocus(tt1)
-    tkconfigure(tt1,cursor="watch")
+    
     bestnmds<-best.nmds(mat=mat6,index=index,k=nb,itr=itr)
-    tkdestroy(tt1)
+    
     bestnmds<<-bestnmds
     if (nb==2) plot(bestnmds$points[,1],bestnmds$points[,2],xlab="1st PC",ylab="2nd PC",sub=paste("Stress=",c(round(bestnmds$stress,digit=3))),main="Non-metric multidimensional scaling")
     if(repe1==1 & nb==2) text(bestnmds$points[,1],bestnmds$points[,2],rownames(bestnmds$points))

@@ -4,6 +4,8 @@
 
 "change.nameGUI"<-function()
 {
+  checkprofile()
+  
   vec<-cbind(rownames(mat$profil),vector(length=length(rownames(mat$profil))))
   vec[,2]=""
   vec<-edit(vec)
@@ -29,6 +31,7 @@
     alig<<-alig
   }
   
-  names(div)<-vec;div<<-div
+  names(div)<-vec
+  div<<-div
   print("Names have been successfully changed")
 }

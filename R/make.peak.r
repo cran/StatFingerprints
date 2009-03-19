@@ -1,65 +1,76 @@
-###########################################
-#    Function to make peak                #
-###########################################
-      
 "make.peak"<-function(prof)
 {
-  tkmessageBox(message="WARNING, care must be taken when using this function. The job is better done if you select as reference peak a peak with the same width and height as the peak you want to redefine") 
-  plot(1:length(prof),prof,type="l",col="blue",xlab="Scan of your fingerprint profile",ylab="Signal intensity",main="Zoom reference peak use to redefine peak (2 click)")
+  tkmessageBox(message="WARNING, care must be taken when using this function. The job is better done if you select as reference a peak with the same width and height as the peak you want to redefine") 
 
-#### Zoom
+#  prof<-mat6[1,]
+  layout(c(1,1),1,1)
+  plot(1:length(prof),prof,type="l",col="blue",xlab="Scan of your fingerprint profile",ylab="Signal intensity",main="Zoom reference peak use to redefine peak (2 clicks)")
+  l_ref=locator(2,type="p",pch=4)
 
-  l=round(locator(2,type="p",pch=4)[[1]],digit=0)
-  d=prof[(l[1]+1):l[2]]
-  plot(1:(l[2]-l[1]),d,type="l",col="blue",xlab=NA,ylab=NA,xaxt="n",yaxt="n",main="Select the reference peak precisely (2 click)")
-  lz<-l
+  peak_ref=matrix(ncol=2,nrow=2)
+  peak_ref[1,1]=floor(l_ref$x[1])
+  peak_ref[1,2]=ceiling(l_ref$x[2])
 
-#### Select x gaussien
+  prof1=prof[peak_ref[1,1]:peak_ref[1,2]]
+  plot(1:length(prof1),prof1,type="l",col="blue",xlab=NA,ylab=NA,xaxt="n",yaxt="n",main="Select the reference peak precisely (2 clicks)")
 
+  l_ref_2=locator(2,type="p",pch=4)
+  zoom_peak_ref<-c(ceiling(l_ref_2$x[1]),floor(l_ref_2$x[2]))
+
+  plot(1:length(prof1),prof1,type="l",col="blue",xlab=NA,ylab=NA,xaxt="n",yaxt="n")
+  points(zoom_peak_ref[1]+1,prof1[zoom_peak_ref[1]+1],pch=19,col="red")
+  points(zoom_peak_ref[2]-1,prof1[zoom_peak_ref[2]-1],pch=19,col="red")
+
+  prof1[1:zoom_peak_ref[1]]<-NA
+  prof1[zoom_peak_ref[2]:length(prof1)]<-NA
+  par(new=TRUE)
+  lines(prof1,col="red",lwd="3")
+
+  tkmessageBox(message="Next step, select the peak to correct")
+
+  plot(1:length(prof),prof,type="l",col="blue",xlab="Scan of your fingerprint profile",ylab="Signal intensity",main="Zoom peak to correct (2 clicks)")
   l=locator(2,type="p",pch=4)
-  ly=which.max(round(l[[2]],digit=0))
-  x2=round(l[[1]][ly],digit=0)
-  if (ly==2) x1=length(which((which(d<d[x2]))<x2))
-    else (x1=which(d<=d[x2])[which((which(d<=d[x2]))>=x2)[2]])
-  if (x1>=x2) xf=c(x2,x1) 
-    else xf=c(x1,x2)
 
-  plot(1:(lz[2]-lz[1]),d,type="l",col="blue",xlab=NA,ylab=NA,xaxt="n",yaxt="n",main="Validate the area of the reference peak (rigth click)")
-  abline(v=c(xf[1],xf[2]))
-  abline(h=d[xf[2]])
-  locator(1)
+  peak=matrix(ncol=2,nrow=2)
+  peak[1,1]=floor(l$x[1])
+  peak[1,2]=ceiling(l$x[2])
 
-###################
-#### Select peak to rebuild
-#################
+  prof2=prof[peak[1,1]:peak[1,2]]
+  plot(1:length(prof2),prof2,type="l",col="blue",xlab=NA,ylab=NA,xaxt="n",yaxt="n",main="Select precisely the peak to correct (2 clicks)")
 
-  plot(1:length(prof),prof,type="l",col="blue",xlab="Scan of your fingerprint profile",ylab="Signal intensity",main="Zoom peak with defects (2 click)")
+  l_2=locator(2,type="p",pch=4)
+  zoom_peak<-c(ceiling(l_2$x[1]),floor(l_2$x[2]))
 
-#### Zoom
+  plot(1:length(prof2),prof2,type="l",col="blue",xlab=NA,ylab=NA,xaxt="n",yaxt="n")
+  points(zoom_peak[1]+1,prof2[zoom_peak[1]+1],pch=19,col="red")
+  points(zoom_peak[2]-1,prof2[zoom_peak[2]-1],pch=19,col="red")
 
-  l=round(locator(2,type="p",pch=4)[[1]],digit=0)##1er loc
-  dd=prof[(l[1]+1):l[2]]
-  plot(1:(l[2]-l[1]),dd,type="l",col="blue",xlab=NA,ylab=NA,xaxt="n",yaxt="n",main="Select the peak with defects precisely (2 click)")
+  prof2[1:zoom_peak[1]]<-NA
+  prof2[zoom_peak[2]:length(prof2)]<-NA
+
+  par(new=TRUE)
+  lines(prof2,col="red",lwd="3")
+
+  tkmessageBox(message="Resulting profil")
+
+  peak_1<-prof[as.numeric(peak_ref[1,1]+zoom_peak_ref[1]):as.numeric(peak_ref[1,2]-(length(prof1)-zoom_peak_ref[2]+1))]
+  peak_2<-prof[as.numeric(peak[1,1]+zoom_peak[1]):as.numeric(peak[1,2]-(length(prof2)-zoom_peak[2]+1))]
+
+####  SPLINE
+
+  peak_corr<-spline(peak_1,n=length(peak_2))
+
+  min_peak_corr<-min(peak_corr[[2]])
+  peak_corr_2<-peak_corr[[2]]-min_peak_corr
+  peak_2_corr<-peak_2+peak_corr_2
+  prof_corr<-prof
+  prof_corr[as.numeric(peak[1,1]+zoom_peak[1]):as.numeric(peak[1,2]-(length(prof2)-zoom_peak[2]+1))]<-peak_2_corr
+
+  plot(1:length(prof_corr),prof_corr,type="l",col="red",xlab="Scan of your fingerprint profile",ylab="Signal intensity",main="Resulting profile")
+  peak_2_corr<-peak_2_corr+zoom_peak_ref[1]
   
-#### Select x gaussien
+  prof3<-c(rep(NA,(as.numeric(peak[1,1]+zoom_peak[1]))-1),peak_2_corr)
+  lines(prof,col="blue")
 
-  l1=round(locator(2,type="p",pch=4)[[1]],digit=0) ##2e loc
-  plot(1:(l[2]-l[1]),dd,type="l",col="blue",xlab=NA,ylab=NA,xaxt="n",yaxt="n",main="Validate the area of the peak with defects (rigth click)")
-  abline(v=c(l1[1],l1[2]))
-  abline(h=dd[l1[2]])
-  x1=l[1]+l1[1]+1
-  x2=x1+l1[2]-l1[1]-1
-  prof1 = spline(d[xf[1]:xf[2]],n=(length(x1:x2)))
-  
-  locator(1)
-
-  er=prof
-  prof1$y<-prof1$y-min(prof1$y)+min(er[x1:x2])
-  er[x1:x2]<-prof1$y
-  layout(1:2,2,1)
-  plot(1:length(er),er,type="l",col="red",ylim=c(min(er),max(er)),xlab=NA,ylab=NA,xaxt="n",yaxt="n")
-  par(new=TRUE); plot(1:length(prof),prof,type="l",col="blue",ylim=c(min(er),max(er)),xlab=NA,ylab=NA,xaxt="n",yaxt="n",main="Result")
-  plot(l[1]:l[2],er[l[1]:l[2]],type="l",col="red",ylim=c(min(er[l[1]:l[2]]),max(er[l[1]:l[2]])),xlab=NA,ylab=NA,xaxt="n",yaxt="n")
-  par(new=TRUE);plot(l[1]:l[2],prof[l[1]:l[2]],type="l",col="blue",ylim=c(min(er[l[1]:l[2]]),max(er[l[1]:l[2]])),xlab=NA,ylab=NA,xaxt="n",yaxt="n")
-  return(er)
+  return(prof_corr)
 }

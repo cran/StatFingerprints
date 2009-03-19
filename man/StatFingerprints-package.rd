@@ -7,7 +7,7 @@
 \alias{SF}
 \alias{sf}
 \title{Graphical user interface of StatFingerprints package}
-\description{A Tcl/Tk GUI to use functions of the \code{StatFingerprints} package package.}
+\description{A Tcl/Tk GUI to use functions of the \code{StatFingerprints} package.}
 
 \section{Menu bar}{
 The menu bar at the top of the window is used to launch all the functions of the package.\cr
@@ -53,7 +53,7 @@ The \code{Fingerprint profiles processing} menu includes all functionalities req
 
 The \code{Plot} menu includes all functionalities to plot the fingerprint profiles of the project and the ordination graphs:
 
-- \code{Plot fingerprint profiles} is used to plot each fingerprint profile in two dimensions or the entire set of fingerprint profiles in three dimensions for any processing step of the fingerprint profiles.
+- \code{Plot fingerprint profiles} is used to plot one or several fingerprint profiles in two dimensions or the entire set of fingerprint profiles in three dimensions for any processing step of the fingerprint profiles.
 
 - \code{Plot saved nMDS/PCA: advanced tools} plots previously calculated non-Metric Multidimensional Scaling (nMDS) and Principal Components Analysis (PCA) in a 2- or 3-dimensional display. PCA and nMDS are plotted with coloured points according to a factor and/or with contour lines coming from a quantitative variable.\cr
 

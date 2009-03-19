@@ -54,8 +54,24 @@
 
   hhe<-function()
   {
-    plot(1:dim(mat$rox)[2],mat$rox[1,],type="l",col="red",xaxt="n",yaxt="n",ylab=NA,xlab=NA,main="Left click to select point, rigth click to get their values")
+
+    rox=mat$rox[1,]
+    profil=mat$profil[1,]
+    tkmessageBox(message="Zoom area to select rox peaks")
+    plot(1:length(rox),rox,type="l",col="red")
+    y1=locator(1,type="p",pch=4)
+    marge<-y1$x
+    segments(y1$x,y1$y,length(rox),y1$y)
+    segments(y1$x,y1$y,y1$x,min(rox))
+    y2=locator(1,type="p",pch=4)
+    segments(1,y2$y,y2$x,y2$y)
+    segments(y2$x,y2$y,y2$x,max(rox))
+    tkmessageBox(message="Select rox peaks")
+    plot(y1$x:y2$x,profil[y1$x:y2$x],ylim=c(y2$y-1,y1$y+1),lty=2,type="l",pch=0.1,col="blue")
+    par(new="T")
+    plot(y1$x:y2$x,rox[y1$x:y2$x],ylim=c(y2$y-1,y1$y+1),type="l",col="red")
     loc<-locator(type="p",pch=4)
+    loc<-loc
     loc<-round((loc$x),digit=0)
     tkgrid(tklabel(tm,text="values are"))
     tkgrid(tklabel(tm,text=paste(loc,",",sep="")))

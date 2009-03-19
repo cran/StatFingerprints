@@ -4,6 +4,8 @@
 
 "heat.mapGUI"<-function()
 {
+  checkprofile()
+  
   tt<-tktoplevel()
   tkwm.title(tt,"Plot a heatmap")
   tkgrid(tklabel(tt,text="                                                                                         "))

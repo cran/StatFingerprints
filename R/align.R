@@ -6,6 +6,7 @@
 {
   rox=mat$rox[nam,]
   profil=mat$profil[nam,]
+  layout(matrix(c(1,1),1,1))
   plot(c(1:length(rox)),rox,type="l",col="red",main=rownames(mat$profil)[nam],sub=c("ZOOM in the internal standard of your fingerprint profile (2 left clicks)"),xlab="Scans of your internal standard",ylab="Signal intensity")
   legend("topright",col=c("red"),c("Reference standard"),lty=c(1))
 
@@ -24,7 +25,7 @@
 #### rox peak range
  
   loc=locator(2,type="p",pch=4)
-    supp=matrix(ncol=2,nrow=2)
+  supp=matrix(ncol=2,nrow=2)
   supp[1,]=loc$x
   supp[2,]=loc$y
   supp=round(supp)
@@ -65,6 +66,10 @@
     rox3[i]<-which.max(rox[ends[i]:starts[i+1]]) + ends[i]-1
   }
 
+  asupp=rox3[1]-25
+  rox3=rox3-asupp
+  profil=profil[asupp:length(profil)]
+  
 #### Check alignment and number of peaks
 
   layout(matrix(c(1,2),2,1))
@@ -82,7 +87,7 @@
   ecos=matrix(ncol=roxref[length(roxref)]-roxref[1],nrow=2)
   for (i in 1:(length(roxref)-1))
   {
-    prof=profil[rox3[i]:rox3[i+1]]
+    prof=profil[rox3[i]:rox3[i+1]]             
     roxo=roxref[i+1]-roxref[i]
     prof1=spline(c(1:length(prof)),prof,n=roxo)
     prof1$x=c(roxref[i]:(-1+roxref[i+1]))
@@ -97,6 +102,6 @@
   par(new=TRUE)
   plot(c(1:dim(ecos)[2]),profil[1:dim(ecos)[2]],lty=3,col="blue",type="l",xlab=NA,ylab=NA,xaxt="n",yaxt="n")
   abline(v=rox3,col="red",lty=3)
-
+  
   return(ecos[2,])
 }

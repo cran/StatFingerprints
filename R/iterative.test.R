@@ -24,8 +24,9 @@
     for (i in 1:dim(profil)[2]) 
     {
       a=wilcox.test(profn1[,i],profn2[,i])
-      if (a[3]<0.05) 
-        z[i]=0 
+      a=a[[3]]
+      a[a=="NaN"]<-1
+      if (a<0.05) z[i]=0 
     }
     return(z)
   }
@@ -33,10 +34,10 @@
   an1<-function(profil,profn1,profn2)
   {
     for (i in 1:dim(profil)[2]) 
-    {
-      a=t.test(profn1[,i],profn2[,i])
-      if (a[3]<0.05) 
-        z[i]=0 
+    {  a=t.test(profn1[,i],profn2[,i])
+       a=a[[3]]
+       a[a=="NaN"]<-1
+       if (a<0.05) z[i]=0 
     }
     return(z)
   }
@@ -48,10 +49,12 @@
     rownames(m)=c(p[1],p[2])
     level1=which(fact==p[1])
     level2=which(fact==p[2])
-    final=matrix(nc=dim(bin)[2],nr=3);rownames(final)=c(p[1],p[2],"significance")
+    final=matrix(nc=dim(bin)[2],nr=3)
+    rownames(final)=c(p[1],p[2],"significance")
     for (i in 1:dim(bin)[2])
     {
-      m=matrix(nc=2,nr=2);colnames(m)=c("present","absent");rownames(m)=c(p[1],p[2])
+      m=matrix(nc=2,nr=2);colnames(m)=c("present","absent")
+      rownames(m)=c(p[1],p[2])
       m[1,1]=sum(bin[level1,i])
       m[1,2]=length(bin[level1,i])- sum(bin[level1,i])
       m[2,1]=sum(bin[level2,i])
@@ -90,5 +93,4 @@
   if (method==3) plot(1:dim(profil)[2],z[3,],type="h",xlab="Scans of profiles",ylab=NA,yaxt="n",sub="Significant differences in black vertical boxes")
   print(ma)
   z<<-z
-
 }

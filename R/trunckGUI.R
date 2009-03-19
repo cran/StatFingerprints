@@ -4,14 +4,16 @@
 
 "trunckGUI"<-function()
 {
+  checkprofile()
+  
   m<-mat$profil
-  if(mat1[1,1]!=1) m<-mat1
-  if(mat2[1,1]!=1) m<-mat2
-  if(mat3[1,1]!=1) m<-mat3
-  if(mat4[1,1]!=1) m<-mat4 
+  if(sum(mat1)!=length(mat1)) m<-mat1
+  if(sum(mat2)!=length(mat2)) m<-mat2
+  if(sum(mat3)!=length(mat3)) m<-mat3
+  if(sum(mat4)!=length(mat4)) m<-mat4 
   
   tt <- tktoplevel()
-  tkwm.title(tt,"Define a common baseline of all fingerprint profiles")
+  tkwm.title(tt,"Define the range of all fingerprint profiles")
   tkgrid(tklabel(tt,text="                                                                                                                                                                                                                        "))
   
   mm<-function()
@@ -61,8 +63,3 @@
   tkgrid(tklabel(tt,text="  "))
   tkfocus(tt)
 }
-
-
-
-
-

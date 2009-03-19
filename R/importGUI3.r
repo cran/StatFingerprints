@@ -78,7 +78,8 @@
     if (trans1==2) m1<-t(m1)
     mat<-list(profil=m1,rox=m1)
     mat<<-mat
-    mat6<-m1;mat6<<-mat6
+    mat6<-m1
+    mat6<<-mat6
     rxref<-0
     rxref<<-rxref
     alig<-vector(length=length(rownames(mat$profil))) ;alig<-rownames(mat$profil)                         ;alig<<-alig

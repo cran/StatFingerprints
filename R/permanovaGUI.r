@@ -4,8 +4,8 @@
 
 "permanovaGUI"<-function()
 {
-  if (fact[1,1]==1) tkmessageBox(message="Error, no qualitative variables to compute 50-50 MANOVA")
-  if (fact[1,1]==1) stop("Error, no qualitative variables to compute 50-50 MANOVA")
+  checkprofile()
+  checkfact()
 
   tt<- tktoplevel()
   tkwm.title(tt, "Compute 50-50 MANOVA")
@@ -91,7 +91,7 @@
 
   tt1<-tkframe(tt)
   text1<-tklabel(tt1,text="Number of rotations?")
-  nb <- tclVar("100")
+  nb <- tclVar("10")
   slider1 <- tkentry(tt1,width=8,textvariable=nb)
   tkpack(text1,slider1,side="left")
   tkgrid(tt1)
@@ -100,13 +100,7 @@
   res<-function()
   {
     nb=as.numeric(tclvalue(nb))
-    tt111 <- tktoplevel()
-    tkwm.title(tt111,"Working")
-    tkgrid(tklabel(tt111,font="arial 12",text="Please wait...\n This operation may take several minutes                           "))
-    tkfocus(tt111)
-    tkconfigure(tt111,cursor="watch")
     z<-ffmanova(aov(ano2,data=fact),nSim=nb,stand=FALSE)
-    tkdestroy(tt111)
     print(z)
   }
   
@@ -127,8 +121,3 @@
   tkgrid(tklabel(tt, text = c("Your 50-50 MANOVA formula is:")))
   tkfocus(tt)
 }
-
-
-
-
-

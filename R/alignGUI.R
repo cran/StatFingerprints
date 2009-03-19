@@ -7,6 +7,8 @@
 ####     Warning
 ####     Rox must be define first
 
+  checkprofile()
+  
   if(length(which(mat$rox==mat$profil)==TRUE)==dim(mat$profil)[1]*dim(mat$profil)[2]) tkmessageBox(message="You have import an ecological table. Alignment cannot be performed", icon="info", type="ok")
   if(length(which(mat$rox==mat$profil)==TRUE)==dim(mat$profil)[1]*dim(mat$profil)[2]) stop("You have import an ecological table. Alignment cannot be performed")
   if (rxref[1]==0) tkmessageBox(message="First, you must define the reference, on which profiles will be aligned. See Data transformation/Rox", icon="info", type="ok")
@@ -33,7 +35,7 @@ alignGUI2<-function()
   tkgrid(tklabel(tt,text=""))
   tkwm.title(tt,"Align fingerprint profile")
   scr <- tkscrollbar(tt, repeatinterval=5, command=function(...)tkyview(tl,...))
-  tl<-tklistbox(tt,height=10,width =50 ,selectmode="single",yscrollcommand=function(...)tkset(scr,...),background="white")
+  tl<-tklistbox(tt,height=20,width =50 ,selectmode="single",yscrollcommand=function(...)tkset(scr,...),background="white")
   tkgrid(tklabel(tt,text="Which profile do you want to align?"))
   tkgrid(tklabel(tt,text=""))
   tkgrid(tl,scr)
@@ -55,7 +57,7 @@ alignGUI2<-function()
       alig[sel]<-paste("Align_",alig[sel],sep="")
     rownames(mat1)<-rownames(mat$profil)
     alig<<-alig
-   mat1<<-mat1
+    mat1<<-mat1
     mat6<<-mat1 
     tkdestroy(tt)
     alignGUI2()

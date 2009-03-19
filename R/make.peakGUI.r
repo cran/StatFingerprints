@@ -4,8 +4,14 @@
 
 "make.peakGUI"<-function()
 {
-  def<-function(mat6){mat8<-mat6
- mat8<<-mat8}
+  checkprofile()
+  
+  def<-function(mat6)
+  {
+    mat8<-mat6
+    mat8<<-mat8
+  }
+  
   def(mat6)  
   
   tt <- tktoplevel()
@@ -24,17 +30,18 @@
     tkinsert(tl,"end",prof[i])
   }
   tkselection.set(tl,0)
-
+       
   mm<-function()
   {
-    if(mat1[1,1]!=1) m<-mat1
-    if(mat2[1,1]!=1) m<-mat2
-    if(mat3[1,1]!=1) m<-mat3
-    if(mat4[1,1]!=1) m<-mat4
-    if(mat5[1,1]!=1) m<-mat5
-    if(mat7[1,1]!=1) m<-mat7
+    if(sum(mat1)!=length(mat1)) m<-mat1
+    if(sum(mat2)!=length(mat2)) m<-mat2
+    if(sum(mat3)!=length(mat3)) m<-mat3
+    if(sum(mat4)!=length(mat4)) m<-mat4
+    if(sum(mat5)!=length(mat5)) m<-mat5
+    if(sum(mat7)!=length(mat7)) m<-mat7
     if(length(which(mat8!=1))!=0) m<-mat8
-    mat8<-m;mat8[]<-1
+    mat8<-m
+    mat8[]<-1
     sel1<- as.numeric(tkcurselection(tl))+1
     ssa<-make.peak(prof=m[sel1,])
     sel<<-sel1 

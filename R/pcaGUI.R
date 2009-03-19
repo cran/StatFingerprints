@@ -4,6 +4,8 @@
 
 "pcaGUI"<-function ()
 { 
+  checkprofile()
+  
   tt <- tktoplevel()
   tkwm.title(tt, "Compute Principal Components Analysis")
   tkgrid(tklabel(tt,text="                                                                                                                   "))
@@ -90,7 +92,7 @@
     fileName<-tclvalue(tkgetSaveFile())
     filename<-paste(fileName,".Rdata",sep="")
     save(pcaf,file=filename)
-    print("Your nMDS has been successfully saved")
+    print("Your PCA has been successfully saved")
     tkdestroy(tt)
   }
 

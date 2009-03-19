@@ -4,6 +4,8 @@
 
 "best.ordinationGUI"<-function()
 {
+  checkprofile()
+  
   tt<-tktoplevel()
   tkwm.title(tt,"Compare PCA vs nMDS with Euclidean metric")
   tkgrid(tklabel(tt,text="                                                                                                                              "))

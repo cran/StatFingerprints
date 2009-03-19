@@ -4,8 +4,8 @@
 
 "pwanosimGUI" <-function ()
 {
-  if (fact[1,1]==1) tkmessageBox(message="Error, no qualitative variables to compute ANOSIM")
-  if (fact[1,1]==1) stop("Error, no qualitative variables to compute ANOSIM")
+  checkprofile()
+  checkfact()
 
   tt <- tktoplevel()
   tkwm.title(tt, "Pairwise ANalysis Of SIMilarity")
@@ -74,13 +74,8 @@
       if (repee1==1) niv<-"pw45pw"
       nb=as.numeric(tclvalue(nb))
      
-      tt111 <- tktoplevel()
-      tkwm.title(tt111,"Working")
-      tkgrid(tklabel(tt111,font="arial 12",text="Please wait...\n This operation may take several minutes                           "))
-      tkfocus(tt111)
-      tkconfigure(tt111,cursor="watch")
       pwanosim(mat=mat6,param=fact[,ae],level=niv,index=index,permutations=nb)
-      tkdestroy(tt111)
+      
     }                                                         
     
     ff<-tkframe(th)

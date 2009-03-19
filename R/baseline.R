@@ -7,6 +7,7 @@
   mat=na.omit(mat)
   basetemp=mat
   basetemp[]<-0
+  layout(matrix(c(1,1),1,1))
   for (i in 1:dim(mat)[1])
   {
     plot(c(1:dim(mat)[2]),mat[i,],ylim=c(0,max(mat)),col=i,type="l",ylab="Signal intensity",xlab="Scans of fingerprint profiles",sub="Left click before and after the beginning of the profiles")
@@ -67,5 +68,3 @@
   abline(h=0,col="red")
   return(basetemp)
 }
-
-

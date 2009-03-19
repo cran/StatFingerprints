@@ -4,8 +4,9 @@
 
 "globalanosimGUI"<-function ()
 {
-  if (fact[1,1]==1) tkmessageBox(message="Error, no qualitative variables to compute ANOSIM")
-  if (fact[1,1]==1) stop("Error, no qualitative variables to compute ANOSIM")
+  checkprofile()
+  checkfact()
+  
   tt <- tktoplevel()
   tkwm.title(tt, "Global ANalysis Of SIMilarity")
   
@@ -25,7 +26,7 @@
 
   tt1<-tkframe(tt)
   text1<-tklabel(tt1,text="Number of MC permutations?")
-  it <- tclVar("100")
+  it <- tclVar("10")
   slider1 <- tkentry(tt1,width=8,textvariable=it)
 
   tkpack(text1,slider1,side="left")
@@ -52,16 +53,9 @@
     if (diste >= 10 & mat9[1,1]==1) stop(message="This index works with presence/absence data. You can either transform your profiles into presence/absence profiles (profile processing menu) or use another index")
 
     facte <- unlist(as.numeric(tcl(repee, "getvalue")) + 1)
-    
     nb=as.numeric(tclvalue(it))
-    tt111 <- tktoplevel()
-    tkwm.title(tt111,"Working")
-    tkgrid(tklabel(tt111,font="arial 12",text="Please wait...\n This operation may take several minutes                           "))
-    tkfocus(tt111)
-    tkconfigure(tt111,cursor="watch")
     res=anosim(dis=newdist(mat6,index), grouping=fact[,facte], permutations = nb)
     
-    tkdestroy(tt111)
     print(res)
   }
  

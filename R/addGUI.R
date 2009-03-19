@@ -87,7 +87,7 @@
       }
       return(ff)
     }   
-    fact<<-relevels(fact)
+   if(is.factor(fact1)==TRUE & is.factor(fact11)==TRUE) fact<<-relevels(fact)
     alig<<-c(alig1,alig11)
     param<<-rbind(param1,param11)
     div<<- c(div1,div11)

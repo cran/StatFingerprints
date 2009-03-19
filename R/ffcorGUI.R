@@ -4,8 +4,8 @@
 
 "ffcorGUI"<-function()
 {
-  if (sum(na.omit(param))==6) tkmessageBox(message="Error, no quantitative variables to compute multivariate correlation")
-  if (sum(na.omit(param))==6) stop("Error, no quantitative variables to compute multivariate correlation")
+  checkprofile()
+  checkparam()
 
   tt <- tktoplevel()
   tkwm.title(tt, "Multivariate correlation with the structure of the community")
@@ -16,7 +16,7 @@
   
   tt2<-tkframe(tt)
   text2<-tklabel(tt2,text="Number of random start?")
-  nb <- tclVar("100")
+  nb <- tclVar("10")
   starte<- tkentry(tt2,width=8,textvariable=nb)
   tkpack(text2,starte,side="left")
   tkgrid(tt2)
@@ -26,14 +26,7 @@
     facte <- unlist(as.numeric(tcl(repee, "getvalue")) + 1)
     nb<- as.numeric(tclvalue(nb))
     qq<-formula(paste("mat6~",colnames(param)[facte],sep=""))
-  
-    tt1 <- tktoplevel()
-    tkwm.title(tt1,"Working")
-    tkgrid(tklabel(tt1,font="arial 12",text="Please wait...\n This operation may take several minutes                           "))
-    tkfocus(tt1)
-    tkconfigure(tt1,cursor="watch")
     z<-ffmanova(aov(qq,data=param),nSim=nb,stand=FALSE)
-    tkdestroy(tt1)
     print(z)
   }
   

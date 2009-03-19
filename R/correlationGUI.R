@@ -4,8 +4,7 @@
 
 "correlationGUI"<-function()
 {
-  if (sum(na.omit(param))==6) tkmessageBox(message="Error, no quantitative variables to compute correlation")
-  if (sum(na.omit(param))==6) stop("Error, no quantitative variables to compute correlation")
+  checkparam()
 
   tt <- tktoplevel()
   tkwm.title(tt, "Simple correlation of Pearson")

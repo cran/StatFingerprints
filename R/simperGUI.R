@@ -4,8 +4,8 @@
 
 "simperGUI" <-function ()
 {
-  if (fact[1,1]==1) tkmessageBox(message="Error, no qualitative variables to compute SIMPER")
-  if (fact[1,1]==1) stop("Error, no qualitative variables to compute SIMPER")
+  checkprofile()
+  checkfact()
  
   tt <- tktoplevel()
   tkwm.title(tt, "SIMilarity PERcentages procedure")
@@ -93,8 +93,3 @@
   tkgrid(tklabel(t2, text = ""))
   tkfocus(t2)
 }
-
-
-
-
-

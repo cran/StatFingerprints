@@ -4,6 +4,8 @@
 
 "plot3dimGUI"<-function()
 {
+  checkprofile()
+  
   tt<-tktoplevel()
   tkwm.title(tt,"Plot fingerprint profiles in 3D")
   tkgrid(tklabel(tt,text="                                                                                                                    "))
@@ -31,8 +33,6 @@
   
   calc<-function()
   {
-    print("Please wait...\n This operation may take several minutes")
-        
     colo <- tclvalue(shook)
     if (colo == 1) for (i in 1:99){myp[as.vector(z)>=quantile(as.vector(z),p=c( c(1:99)/100))[i]]<-terrain.colors(100)[i]}
     if (colo == 1) myp[as.vector(z)<=quantile(as.vector(z),p=c( c(1:99)/100))[1]]<-terrain.colors(100)[1]
@@ -64,10 +64,7 @@
     if (colo == 13) myp[as.vector(z)<=quantile(as.vector(z),  p=c( c(1:9)/10))[1]]<-brewer.pal(9,"BuGn" )[1]
     myp<<-myp
     plot3dim(mat=mat6,col=myp)
-    print("Successfully plotted")
     tkfocus(MainMenu)
-    
-    
   }
   
   tkgrid(tklabel(tt,text=""))   

@@ -43,5 +43,3 @@
   abline(h=0)
   return(backgr)
 }
-
-

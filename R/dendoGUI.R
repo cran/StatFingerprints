@@ -4,6 +4,8 @@
 
 "dendoGUI"<-function()
 {
+  checkprofile()
+  
   tt<-tktoplevel()
   tkwm.title(tt,"Hierarchical clustering")
   tkgrid(tklabel(tt,text="                                                                                         "))

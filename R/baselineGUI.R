@@ -4,8 +4,10 @@
 
 "baselineGUI"<-function()
 {
-  if (mat1[1,1]!=1) m<-mat1
-  if (mat2[1,1]!=1) m<-mat2
+  checkprofile()
+  
+  if (sum(mat1)!=length(mat1)) m<-mat1
+  if (sum(mat2)!=length(mat2)) m<-mat2
   tt <- tktoplevel()
   tkwm.title(tt,"Define a common baseline of all fingerprint profiles")
   tkgrid(tklabel(tt,text="                                                                                                                                                    ")) 
