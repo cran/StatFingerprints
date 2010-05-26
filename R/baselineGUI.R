@@ -1,59 +1,59 @@
-##########################################################################
-#    GUI for the "Define a common baseline for all profiles" function    #
-##########################################################################
-
-"baselineGUI"<-function()
+baselineGUI <-
+function()
 {
-  checkprofile()
-  
-  if (sum(mat1)!=length(mat1)) m<-mat1
-  if (sum(mat2)!=length(mat2)) m<-mat2
-  tt <- tktoplevel()
-  tkwm.title(tt,"Define a common baseline of all fingerprint profiles")
-  tkgrid(tklabel(tt,text="                                                                                                                                                    ")) 
-    
-  mm<-function()
-  {
-    mat3<-baseline(m)
-    mat3<<-mat3 
-    mat6<<-mat3
-    print("Common baseline successfully defined")
-    tkdestroy(tt)
-    tkfocus(MainMenu)
-  }
-  
-  ht<-function()
-  {
-    ter <- tktoplevel()
-    tkgrid(tklabel(ter,text=""))
-    tkwm.title(ter,"Align fingerprint profile")##
-    zzz<-file.path(paste(.libPaths(), "/StatFingerprints/baseline.GIF",sep=""))
-    icnn<-tkimage.create("photo", file = zzz)
-    tcltklab <- tklabel(ter, image = icnn)
-    tkgrid(tcltklab)
-    tkgrid(tklabel(ter,text=""))
-    
-    close<-function()
-    {
-      tkdestroy(ter)
-    }
-    
-    tkgrid(tkbutton(ter,text="Cancel",command=close))
-    tkgrid(tklabel(ter,text=""))
-  }
-  
-  t1<-tkframe(tt)
-  b1<-tkbutton(t1,text="Define baseline",command=mm)
-  
-  close<-function()
-  {
-    tkdestroy(tt)
-  }
-  
-  b2<-tkbutton(t1,text="Cancel",command=close)
-  b3<-tkbutton(t1,text="Help picture",command=ht)
-  tkpack(b1,b2,b3,side="left")
-  tkgrid(t1)
-  tkgrid(tklabel(tt,text="  "))
-  tkfocus(tt)
+	checkprofile()
+	
+	####  Warning : alignment must be done  ####
+	if (sum(mat.align)==length(mat.align)) 
+	{
+		tkmessageBox(message="Profiles must be aligned before processing baseline")
+		stop()
+	}
+	if (sum(mat.align)!=length(mat.align))
+		m<-mat.align
+	
+	
+	tt <- tktoplevel()
+	tkwm.title(tt,"Define a common baseline of all fingerprint profiles")
+	tkgrid(tklabel(tt,text="                                                                                                                                                    ")) 
+	
+	####  Call baseline()  ####
+	
+	compute.baseline<-function()
+	{
+		mat.baseline<-baseline(m)
+		mat.baseline<<-mat.baseline 
+		mat.analyse<<-mat.baseline
+		tkmessageBox(message="Common baseline successfully defined")
+		dev.off()
+		tkdestroy(tt)
+	}
+	
+	####  Display help baseline picture  ####
+	
+	help.baseline<-function()
+	{
+		ter <- tktoplevel()
+		tkgrid(tklabel(ter,text=""))
+		tkwm.title(ter,"Baseline correction")
+		zzz<-file.path(paste(.libPaths(), "/StatFingerprints/baseline.GIF",sep=""))
+		icnn<-tkimage.create("photo", file = zzz)
+		tcltklab <- tklabel(ter, image = icnn)
+		tkgrid(tcltklab)
+		tkgrid(tklabel(ter,text=""))
+		tkgrid(tkbutton(ter,text="Cancel",command=function() tkdestroy(ter)))
+		tkgrid(tklabel(ter,text=""))
+	}
+	
+	####  Main Window  ####
+	
+	t1<-tkframe(tt)
+	b1<-tkbutton(t1,text="Define baseline",command=compute.baseline)
+	b2<-tkbutton(t1,text="Cancel",command=function() tkdestroy(tt))
+	b3<-tkbutton(t1,text="Help picture",command=help.baseline)
+	tkpack(b1,b2,b3,side="left")
+	tkgrid(t1)
+	tkgrid(tklabel(tt,text="  "))
+	tkfocus(tt)
 }
+

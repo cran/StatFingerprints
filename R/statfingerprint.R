@@ -1,0 +1,3 @@
+statfingerprint <-
+function(){StatFingerprints()}
+

@@ -1,8 +1,8 @@
 \name{Internal functions}
-\alias{addGUI}
 \alias{align}
 \alias{alignGUI}
 \alias{alignGUI2}
+\alias{anosim_sf}
 \alias{anovaGUI}
 \alias{askquitGUI}
 \alias{baseline}
@@ -13,6 +13,8 @@
 \alias{best.ordinationGUI}
 \alias{binary}
 \alias{binaryGUI}
+\alias{capscaleGUI}
+\alias{ccaGUI}
 \alias{change.nameGUI}
 \alias{checkfact}
 \alias{checkparam}
@@ -23,12 +25,15 @@
 \alias{delete.backgroundGUI}
 \alias{deletefactGUI}
 \alias{deleteGUI}
-\alias{dendoGUI}
+\alias{dendroGUI}
 \alias{des.univGUI}
 \alias{diversities}
 \alias{diversitiesGUI}
+\alias{export.distGUI}
 \alias{ffcorGUI}
+\alias{ffmanova_sf}
 \alias{globalanosimGUI}
+\alias{graphfactGUI}
 \alias{heat.map}
 \alias{heat.mapGUI}
 \alias{importGUI1}
@@ -40,12 +45,13 @@
 \alias{loadGUI}
 \alias{make.peak}
 \alias{make.peakGUI}
+\alias{mergeGUI}
 \alias{newdist}
 \alias{newrdata}
-\alias{nmds.contour}
 \alias{normalisation}
 \alias{normalisationGUI}
 \alias{oppdf}
+\alias{oppdfcit}
 \alias{pcaGUI}
 \alias{peakparameters}
 \alias{permanovaGUI}
@@ -56,16 +62,18 @@
 \alias{plotordGUI}
 \alias{pwanosim}
 \alias{pwanosimGUI}
+\alias{rdaGUI}
+\alias{Robject2SFGUI}
 \alias{rollball}
 \alias{roxdefault}
 \alias{roxnewGUI}
 \alias{saveasGUI}
-\alias{saveGUI}
 \alias{simper}
 \alias{simperGUI}
 \alias{simperGUI1}
 \alias{trunck}
 \alias{trunckGUI}
+\alias{waitGUI}
 \alias{withingroupvariability}
 \alias{withingroupvariabilityGUI}
 \title{Internal functions for the StatFingerprints package}

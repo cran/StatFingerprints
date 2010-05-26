@@ -1,175 +1,162 @@
-##################################################################################
-#    GUI for the "transform profiles into presence/absence profiles" function    #
-##################################################################################
-
-"binaryGUI"<-function()
+binaryGUI <-
+function()
 {
-  checkprofile()
-  
-  tt <- tktoplevel()
-  tkwm.title(tt,"Transform into presence/absence fingerpint profiles")
-  tkgrid(tklabel(tt,text="                                                                                                                                                                       "))
-  tkgrid(tklabel(tt,text="Characteristics of the detection of the peaks"))
-  
-  paramm<-function()
-  {
-    trr <- tktoplevel()
-    tkwm.title(trr,"What is the radius of the rollball")
-    tkgrid(tklabel(trr,text=""))
-    zzz<-file.path(paste(.libPaths(), "/StatFingerprints/radius.GIF",sep=""))
-    icnn<-tkimage.create("photo", file = zzz)
-    tcltklab <- tklabel(trr, image = icnn)
-    tkgrid(tcltklab)
-    tkgrid(tklabel(trr,text=""))
-  
-    close<-function()
-    {
-      tkdestroy(trr)
-    }
-    
-    tkgrid(tkbutton(trr,text="Cancel",command=close))
-    tkgrid(tklabel(trr,text=""))
+	checkprofile()
 
-    tr <- tktoplevel()
-    tkgrid(tklabel(tr,text="                                                                                                                                   "))
-    tkwm.title(tr,"Help to define characteristics of peak detection")
-    tkgrid(tklabel(tr,text="Characteristics of the detection of the peaks"))
-       
-    t1<-tkframe(tr)
-    text1<-tklabel(t1,text="Radius of the rollball?")
-    s1 <- tclVar("10")
-    slider1 <- tkentry(t1,width=8,textvariable=s1)
-    tkpack(text1,slider1,side="left")
-    tkgrid(t1)
-                    
-    t2<-tkframe(tr)
-    text2<-tklabel(t2,text="Delete peaks with height under (per mille)")
-    s2 <- tclVar("5")
-    slider2 <- tkentry(t2,width=8,textvariable=s2)
-    tkpack(text2,slider2,side="left")
-    tkgrid(t2)
-          
-    t3<-tkframe(tr)
-    text3<-tklabel(t3,text="Wide peak area")
-    s3 <- tclVar("8")
-    slider3 <- tkentry(t3,width=8,textvariable=s3)
-    tkpack(text3,slider3,side="left")
-    tkgrid(t3)
-          
-    t4<-tkframe(tr)
-    text4<-tklabel(t4,text="Interval size (in scans)")
-    s4 <- tclVar("5")
-    slider4 <- tkentry(t4,width=8,textvariable=s4)
-    tkpack(text4,slider4,side="left")
-    tkgrid(t4)
-          
-    tkgrid(tklabel(tr,text="   "))
-    scr <- tkscrollbar(tr, repeatinterval=5,command=function(...)tkyview(tl,...))
-    tl<-tklistbox(tr,height=10,width =50 ,selectmode="single",yscrollcommand=function(...)tkset(scr,...),background="white")
-    tkgrid(tklabel(tr,text="Which profile do you want to plot?"))
-    tkgrid(tklabel(tr,text=""))
-    tkgrid(tl,scr)
-    tkgrid.configure(scr,rowspan=10,sticky="nsw")
-    prof <- rownames(mat$profil)
- 
-    for (i in 1:length(prof))
-    { 
-      tkinsert(tl,"end",prof[i])
-    }
-    tkselection.set(tl,0)
+	if(sum(mat.range)==length(mat.range))
+	{
+		tkmessageBox(message="Attention: range function must be done before transforming profiles in presence/abscence")
+		stop()
+	}
 
-    paramm1<-function()
-    {
-      radius=as.numeric(tclvalue(s1))
-      lim=as.numeric(tclvalue(s2))
-      digit=as.numeric(tclvalue(s3))
-      int=as.numeric(tclvalue(s4))
-      sel<- as.numeric(tkcurselection(tl))+1
-      peakparameters(prof=mat6[sel,],radius=radius,int=int,lim=lim,digit=digit)}
-      nwpl<-function(){x11()}
-      tkgrid(tklabel(tr,text=""))
-      tr1<-tkframe(tr)
-      b1<-tkbutton(tr1,text="plot",command=paramm1)
-      b2<-tkbutton(tr1,text="new windows",command=nwpl)
-    
-      close<-function()
-      {
-        tkdestroy(tr)
-      }
-      
-      b3<-tkbutton(tr1,text="Cancel",command=close)
-      tkpack(b1,b2,b3,side="left")
-      tkgrid(tr1)
-      tkgrid(tklabel(tr,text=""))
-      tkfocus(tr)
-    }
+	tt <- tktoplevel()
+	tkwm.title(tt,"Transform into presence/absence fingerpint profiles")
+	tkgrid(tklabel(tt,text="                                                                                                                                                                       "))
+	tkgrid(tklabel(tt,text="Characteristics of the detection of the peaks"))
 
-  tkgrid(tkbutton(tt,text="Help to define characteristics of peak detection",command=paramm))
-  t1<-tkframe(tt)
-  text1<-tklabel(t1,text="Radius of the rollball?")
-  s1 <- tclVar("10")
-  slider1<- tkentry(t1,width=8,textvariable=s1)
-  tkpack(text1,slider1,side="left")
-  tkgrid(t1)
-  
-  t2<-tkframe(tt)
-  text2<-tklabel(t2,text="Delete peaks with height under (per mille)")
-  s2 <- tclVar("5")
-  slider2<- tkentry(t2,width=8,textvariable=s2)
-  tkpack(text2,slider2,side="left")
-  tkgrid(t2)
+	help.binary<-function()
+	{
+		trr <- tktoplevel()
+		tkwm.title(trr,"What is the radius of the rollball")
+		tkgrid(tklabel(trr,text=""))
+		zzz<-file.path(paste(.libPaths(), "/StatFingerprints/radius.GIF",sep=""))
+		icnn<-tkimage.create("photo", file = zzz)
+		tcltklab <- tklabel(trr, image = icnn)
+		tkgrid(tcltklab)
+		tkgrid(tklabel(trr,text=""))
+		tkgrid(tkbutton(trr,text="Cancel",command=function() tkdestroy(trr)))
+		tkgrid(tklabel(trr,text=""))
 
-  t3<-tkframe(tt)
-  text3<-tklabel(t3,text="Wide peak area")
-  s3 <- tclVar("8")
-  slider3<- tkentry(t3,width=8,textvariable=s3)
-  tkpack(text3,slider3,side="left")
-  tkgrid(t3)
+		tr <- tktoplevel()
+		tkgrid(tklabel(tr,text="                                                                                                                                   "))
+		tkwm.title(tr,"Help to define characteristics of peak detection")
+		tkgrid(tklabel(tr,text="Characteristics of the detection of the peaks"))
 
-  t4<-tkframe(tt)
-  text4<-tklabel(t4,text="Interval size (in scans)")
-  s4 <- tclVar("5")
-  slider4<- tkentry(t4,width=8,textvariable=s4)
-  tkpack(text4,slider4,side="left")
-  tkgrid(t4)
+		t1<-tkframe(tr)
+		text1<-tklabel(t1,text="Radius of the rollball?")
+		s1 <- tclVar("10")
+		slider1 <- tkentry(t1,width=8,textvariable=s1)
+		tkpack(text1,slider1,side="left")
+		tkgrid(t1)
 
-  tkgrid(tklabel(tt,text=""))
+		t2<-tkframe(tr)
+		text2<-tklabel(t2,text="Delete peaks with height under (per mille)")
+		s2 <- tclVar("5")
+		slider2 <- tkentry(t2,width=8,textvariable=s2)
+		tkpack(text2,slider2,side="left")
+		tkgrid(t2)
 
-  calc<-function()
-  {
-    if(sum(mat1)!=length(mat1)) m<-mat1
-    if(sum(mat2)!=length(mat2)) m<-mat2
-    if(sum(mat3)!=length(mat3)) m<-mat3
-    if(sum(mat4)!=length(mat4)) m<-mat4
-    if(sum(mat5)!=length(mat5)) m<-mat5
-    if(sum(mat7)!=length(mat7)) m<-mat7
-    if(sum(mat8)!=length(mat8)) m<-mat8
-      
-    radius=as.numeric(tclvalue(s1))
-    lim=as.numeric(tclvalue(s2))
-    digit=as.numeric(tclvalue(s3))
-    int=as.numeric(tclvalue(s4))
-    mat9<-binary(mat=m,radius=radius,int=int,lim=lim,digit=digit)
-    mat9<<-mat9
-    mat6<<-mat9
-    print("Fingerprint profiles successfully transformed into presence absence profiles")
-    tkfocus(MainMenu)
-    
-  }
+		t3<-tkframe(tr)
+		text3<-tklabel(t3,text="Wide peak area")
+		s3 <- tclVar("8")
+		slider3 <- tkentry(t3,width=8,textvariable=s3)
+		tkpack(text3,slider3,side="left")
+		tkgrid(t3)
 
-  tkgrid(tklabel(tt,text=""))
-  t6<-tkframe(tt)
-  b1<-tkbutton(t6,text="Transform into presence/absence fingerprint profiles",command=calc)
-  
-  close<-function()
-  {
-    tkdestroy(tt)
-  }
-  
-  b3<-tkbutton(t6,text="Cancel",command=close)
-  
-  tkpack(b1,b3,side="left")
-  tkgrid(t6)
-  tkgrid(tklabel(tt,text=""))
-  tkfocus(tt)
+		t4<-tkframe(tr)
+		text4<-tklabel(t4,text="Interval size (in scans)")
+		s4 <- tclVar("5")
+		slider4 <- tkentry(t4,width=8,textvariable=s4)
+		tkpack(text4,slider4,side="left")
+		tkgrid(t4)
+
+		tkgrid(tklabel(tr,text="   "))
+		scr <- tkscrollbar(tr, repeatinterval=5,command=function(...)tkyview(tl,...))
+		tl<-tklistbox(tr,height=10,width =50 ,selectmode="single",yscrollcommand=function(...)tkset(scr,...),background="white")
+		tkgrid(tklabel(tr,text="Which profile do you want to plot?"))
+		tkgrid(tklabel(tr,text=""))
+		tkgrid(tl,scr)
+		tkgrid.configure(scr,rowspan=10,sticky="nsw")
+
+		prof <- rownames(mat.raw$profil)
+
+		for (i in 1:length(prof))
+		{ 
+			tkinsert(tl,"end",prof[i])
+		}
+		tkselection.set(tl,0)
+
+		plot.binary<-function()
+		{
+			radius=as.numeric(tclvalue(s1))
+			lim=as.numeric(tclvalue(s2))
+			digit=as.numeric(tclvalue(s3))
+			int=as.numeric(tclvalue(s4))
+			sel<- as.numeric(tkcurselection(tl))+1
+			peakparameters(prof=mat.analyse[sel,],radius=radius,int=int,lim=lim,digit=digit)
+		}
+
+		tkgrid(tklabel(tr,text=""))
+		tr1<-tkframe(tr)
+		b1<-tkbutton(tr1,text="plot",command=plot.binary)
+		b2<-tkbutton(tr1,text="new windows",command=function() x11())
+		b3<-tkbutton(tr1,text="Cancel",command=function() tkdestroy(tr))
+		tkpack(b1,b2,b3,side="left")
+		tkgrid(tr1)
+		tkgrid(tklabel(tr,text=""))
+		tkfocus(tr)
+	}
+
+	tkgrid(tkbutton(tt,text="Help to define characteristics of peak detection",command=help.binary))
+	t1<-tkframe(tt)
+	text1<-tklabel(t1,text="Radius of the rollball?")
+	s1 <- tclVar("10")
+	slider1<- tkentry(t1,width=8,textvariable=s1)
+	tkpack(text1,slider1,side="left")
+	tkgrid(t1)
+
+	t2<-tkframe(tt)
+	text2<-tklabel(t2,text="Delete peaks with height under (per mille)")
+	s2 <- tclVar("5")
+	slider2<- tkentry(t2,width=8,textvariable=s2)
+	tkpack(text2,slider2,side="left")
+	tkgrid(t2)
+
+	t3<-tkframe(tt)
+	text3<-tklabel(t3,text="Wide peak area")
+	s3 <- tclVar("8")
+	slider3<- tkentry(t3,width=8,textvariable=s3)
+	tkpack(text3,slider3,side="left")
+	tkgrid(t3)
+
+	t4<-tkframe(tt)
+	text4<-tklabel(t4,text="Interval size (in scans)")
+	s4 <- tclVar("5")
+	slider4<- tkentry(t4,width=8,textvariable=s4)
+	tkpack(text4,slider4,side="left")
+	tkgrid(t4)
+
+	tkgrid(tklabel(tt,text=""))
+
+	compute.binary<-function()
+	{
+		if(sum(mat.align)!=length(mat.align))						m<-mat.align
+		if(sum(mat.background)!=length(mat.background)) m<-mat.background
+		if(sum(mat.baseline)!=length(mat.baseline))			m<-mat.baseline
+		if(sum(mat.range)!=length(mat.range)) 					m<-mat.range
+		if(sum(mat.normalise)!=length(mat.normalise)) 		m<-mat.normalise
+		if(sum(mat.rebuilt)!=length(mat.rebuilt)) 				m<-mat.rebuilt
+		
+		radius=as.numeric(tclvalue(s1))
+		lim=as.numeric(tclvalue(s2))
+		digit=as.numeric(tclvalue(s3))
+		int=as.numeric(tclvalue(s4))
+		mat.binary<-binary(mat=m,radius=radius,int=int,lim=lim,digit=digit)
+		mat.binary<<-mat.binary
+		mat.analyse<<-mat.binary
+		tkmessageBox(message="Fingerprint profiles successfully transformed into presence absence profiles")
+		dev.off()
+		tkdestroy(tt)
+	}
+
+	tkgrid(tklabel(tt,text=""))
+	t6<-tkframe(tt)
+	b1<-tkbutton(t6,text="Transform into presence/absence fingerprint profiles",command=compute.binary)
+	b3<-tkbutton(t6,text="Cancel",command=function() tkdestroy(tt))
+
+	tkpack(b1,b3,side="left")
+	tkgrid(t6)
+	tkgrid(tklabel(tt,text=""))
+	tkfocus(tt)
 }
+

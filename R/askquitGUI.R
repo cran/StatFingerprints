@@ -1,9 +1,7 @@
-################################
-#Close StatFingerprints program#
-################################
-
-"askquitGUI"<-function()
+askquitGUI <-
+function()
 {
-  closeAllConnections()
-  tkdestroy(MainMenu)
+	closeAllConnections()
+	tkdestroy(MainMenu)
 }
+
